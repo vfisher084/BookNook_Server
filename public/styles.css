@@ -1,1 +1,30 @@
+:root {
+    --body-background-color: #f7f7f7;
+    --header-footer-background-color: #898d7c;
+    --nav-background-color: #c0c4b5;
+    --big-container-outline-color: #c0c4b5;
+    --container-outline-color: #c0c4b5;
+    --h1-color: #F2EADF;
+  }
+  
+  body {
+    font-family: serif;
+    background: var(--body-background-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 40px;
+    color: var(--header-footer-background-color);
+  }
+  
+  a {
+    text-decoration: none;
+    color: var(--container-outline-color);
+  }
 
+    a:hover {
+        color: var(--header-footer-background-color);
+    }

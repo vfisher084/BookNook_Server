@@ -1,17 +1,33 @@
 const express = require("express");
 const cors = require("cors");
+const multer = require("multer");
+const Joi = require("joi");
 const app = express();
+//const path = require("path");
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./public/images/");
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    },
+});
+const upload = multer({ storage: storage });
+
 
 app.get("/books", (req, res)=>{
     res.sendFile(__dirname + "/index.html");
 });
 
+//app.use('/images', express.static(path.join(__dirname, 'images')));
+
 let books = [
     {
-        "id": 1, 
+        "_id": 1, 
         "isbn": 9781649374042,
         "title": "Fourth Wing",
         "author": "Rebecca Yarros",
@@ -30,7 +46,7 @@ let books = [
         "quantity": 30
     },
     {
-        "id": 2,
+        "_id": 2,
         "isbn": 9780063415805,
         "title": "When the Moon Hatched",
         "author": "Sarah A. Parker",
@@ -50,7 +66,7 @@ let books = [
         "quantity": 16
     },
     {
-        "id": 3,
+        "_id": 3,
         "isbn": 9781250192196,
         "title": "The Hazel Wood",
         "author": "Melissa Albert",
@@ -69,7 +85,7 @@ let books = [
         "quantity": 37
     },
     {
-        "id": 4,
+        "_id": 4,
         "isbn": 9781609454845,
         "title": "A Winter's Promise",
         "author": "Christelle Dabos",
@@ -88,7 +104,7 @@ let books = [
         "quantity": 22
     },
     {
-        "id": 5,
+        "_id": 5,
         "isbn": 9780349132600,
         "title": "The Housemaid's Secret",
         "author": "Freida McFadden",
@@ -107,7 +123,7 @@ let books = [
         "quantity": 13
     },
     {
-        "id": 6,
+        "_id": 6,
         "isbn": 9780590254762,
         "title": "The Lion, the Witch and the Wardrobe",
         "author": "C.S. Lewis",
@@ -126,7 +142,7 @@ let books = [
         "quantity": 43
     },
     {
-        "id": 7,
+        "_id": 7,
         "isbn": 9780141353821,
         "title": "The Summer I Turned Pretty",
         "author": "Jenny Han",
@@ -145,7 +161,7 @@ let books = [
         "quantity": 26
     },
     {
-        "id": 8,
+        "_id": 8,
         "isbn": 9780385546881,
         "title": "The Frozen River",
         "author": "Ariel Lawhon",
@@ -164,7 +180,7 @@ let books = [
         "quantity": 19
     },
     {
-        "id": 9,
+        "_id": 9,
         "isbn": 9781619634442,
         "title": "A Court of Thorns and Roses",
         "author": "Sarah J. Maas",
@@ -183,7 +199,7 @@ let books = [
         "quantity": 22
     },
     {
-        "id": 10,
+        "_id": 10,
         "isbn": 9780582541528,
         "title": "The Secret Garden",
         "author": "Frances Hodgson Burnett",
@@ -202,7 +218,7 @@ let books = [
         "quantity": 17
     },
     {
-        "id": 11,
+        "_id": 11,
         "isbn": 9780349147192,
         "title": "Revenge of the Tipping Point",
         "author": "Malcolm Gladwell",
@@ -221,7 +237,7 @@ let books = [
         "quantity": 17
     },
     {
-        "id": 12,
+        "_id": 12,
         "isbn": 9781551929781,
         "title": "Harry Potter and the Deathly Hallows",
         "author": "J.K. Rowling",
@@ -240,7 +256,7 @@ let books = [
         "quantity": 26
     },
     {
-        "id": 13,
+        "_id": 13,
         "isbn": 9781649374189,
         "title": "Onyx Storm",
         "author": "Rebecca Yarros",
@@ -259,7 +275,7 @@ let books = [
         "quantity": 28
     },
     {
-        "id": 14,
+        "_id": 14,
         "isbn": 9781401971366,
         "title": "The Let Them Theory",
         "author": "Mel Robbins",
@@ -278,7 +294,7 @@ let books = [
         "quantity": 15
     },
     {
-        "id": 15,
+        "_id": 15,
         "isbn": 9780593949238,
         "title": "The Life Impossible",
         "author": "Matt Haig",
@@ -297,7 +313,7 @@ let books = [
         "quantity": 24
     },
     {
-        "id": 16,
+        "_id": 16,
         "isbn": 9781665955461,
         "title": "Fearless",
         "author": "Lauren Roberts",
@@ -316,7 +332,7 @@ let books = [
         "quantity": 30
     },
     {
-        "id": 17,
+        "_id": 17,
         "isbn": 9780582541610,
         "title": "Jane Eyre",
         "author": "Charlotte Brontë",
@@ -335,7 +351,7 @@ let books = [
         "quantity": 23
     },
     {
-        "id": 18,
+        "_id": 18,
         "isbn": 9781784871765,
         "title": "Wuthering Heights",
         "author": "Emily Brontë",
@@ -354,7 +370,7 @@ let books = [
         "quantity": 15
     },
     {
-        "id": 19,
+        "_id": 19,
         "isbn": 9780007488315,
         "title": "The Fellowship of the Ring",
         "author": "J.R.R. Tolkien",
@@ -373,7 +389,7 @@ let books = [
         "quantity": 27
     },
     {
-        "id": 20,
+        "_id": 20,
         "isbn": 9780582426634,
         "title": "Dracula",
         "author": "Bram Stoker",
@@ -392,7 +408,7 @@ let books = [
         "quantity": 16
     },
     {
-        "id": 21,
+        "_id": 21,
         "isbn": 9780613371063,
         "title": "Harry Potter and the Prizoner of Azkaban",
         "author": "J.K. Rowling",
@@ -411,7 +427,7 @@ let books = [
         "quantity": 23
     },
     {
-        "id": 22,
+        "_id": 22,
         "isbn": 9781250777904,
         "title": "Six of Crows",
         "author": "Leigh Bardugo",
@@ -430,7 +446,7 @@ let books = [
         "quantity": 23
     },
     {
-        "id": 23,
+        "_id": 23,
         "isbn": 9780141988498,
         "title": "Talking to Strangers",
         "author": "Malcolm Gladwell",
@@ -449,7 +465,7 @@ let books = [
         "quantity": 31
     },
     {
-        "id": 24,
+        "_id": 24,
         "isbn": 9780143110910,
         "title": "Behave",
         "author": "Robert Sapolsky",
@@ -468,7 +484,7 @@ let books = [
         "quantity": 22
     },
     {
-        "id": 25,
+        "_id": 25,
         "isbn": 9781515905905,
         "title": "Braiding Sweetgrass",
         "author": "Robin Wall Kimmerer",
@@ -487,7 +503,7 @@ let books = [
         "quantity": 27
     },
     {
-        "id": 26,
+        "_id": 26,
         "isbn": 9780316036696,
         "title": "Outliers",
         "author": "Malcolm Gladwell",
@@ -510,6 +526,38 @@ let books = [
 app.get("/api/books", (req, res) => {
     res.send(books);
 });
+
+app.post("/api/books", upload.single("img"), (req,res)=>{
+    const result = validateBook(req.body);
+
+    if(result.error){
+        console.log("I have an error");
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
+
+    const book = {
+        _id: books.length,
+        title: req.body.title,
+        author: req.body.author,
+    };
+
+    if(req.file){
+        book.image = `images/${req.file.filename}`;
+    }
+
+    books.push(book);
+    res.status(200).send(book);
+});
+
+const validateBook = (book) => {
+    const schema = Joi.object({
+        _id:Joi.allow(""),
+        title:Joi.string().min(3).required(),
+        author:Joi.string().min(3).required(),
+    });
+    return schema.validate(book);
+}
 
 app.listen(3001, () => {
     console.log("I'm listening");

@@ -550,6 +550,47 @@ app.post("/api/books", upload.single("img"), (req,res)=>{
     res.status(200).send(book);
 });
 
+app.put("/api/books/:id", upload.single("img"),(req,res)=> {
+    const book = books.find((book)=>book._id===parseInt(req.params.id));
+
+    if(!book){
+        res.status(404).send("The book with the provided id was not found");
+        return;
+    }
+    
+    const result = validateBook(req.body);
+
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
+
+    book.title = req.body.title;
+    book.author = req.body.author;
+
+    if(req.file){
+        book.image = `images/${req.file.filename}`;
+    }
+
+    res.status(200).send(book);
+});
+
+app.delete("/api/books/:id", (req,res)=> {
+    console.log("I'm trying to delete" + req.params.id);
+    const book = books.find((book)=>book._id===parseInt(req.params.id));
+
+    if(!book){
+        console.log("Cannot find book");
+        res.status(404).send("The book with the provided id was not found");
+        return;
+    }
+    console.log("Found book" + book.title);
+    console.log("Deleting book" + book.title);
+    const index = books.indexOf(book);
+    books.splice(index,1);
+    res.status(200).send(book);
+});
+
 const validateBook = (book) => {
     const schema = Joi.object({
         _id:Joi.allow(""),

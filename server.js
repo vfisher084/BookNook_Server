@@ -551,7 +551,7 @@ app.post("/api/books", upload.single("img"), (req,res)=>{
 });
 
 app.put("/api/books/:id", upload.single("img"),(req,res)=> {
-    const book = books.find((book)=>book._id===parseInt(req.params.id));
+    const book = books.find((book)=>book._id.toString()===(req.params.id));
 
     if(!book){
         res.status(404).send("The book with the provided id was not found");
@@ -577,7 +577,7 @@ app.put("/api/books/:id", upload.single("img"),(req,res)=> {
 
 app.delete("/api/books/:id", (req,res)=> {
     console.log("I'm trying to delete" + req.params.id);
-    const book = books.find((book)=>book._id===parseInt(req.params.id));
+    const book = books.find((book)=>book._id.toString()===(req.params.id));
 
     if(!book){
         console.log("Cannot find book");
